@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import DishList from '../../../component/DishList';
+import AddToCartButton from '../../../component/AddToCartButton';
 import { CATEGORIES, getDish, getDishes, slugify } from '../../../data/dishes';
 
 export const dynamicParams = false;
@@ -21,7 +23,8 @@ export default async function MenuSegmentPage({ params }) {
         <Link href="/menu">Back to menu</Link>
         <h1 className="mt-2 text-2xl font-bold">{dish.name}</h1>
         <p>{dish.category}</p>
-        <p className="font-bold">{dish.price} ETB</p>
+        <p className="mb-3 font-bold">{dish.price} ETB</p>
+        <AddToCartButton dish={dish} />
       </article>
     );
   }
@@ -37,16 +40,7 @@ export default async function MenuSegmentPage({ params }) {
     <article>
       <Link href="/menu">Back to menu</Link>
       <h1 className="mt-2 mb-4 text-2xl font-bold">{category}</h1>
-      <ul className="grid gap-2">
-        {categoryDishes.map((d) => (
-          <li key={d.id} className="flex justify-between rounded border p-3">
-            <Link href={`/menu/${d.id}`} className="font-bold">
-              {d.name}
-            </Link>
-            <span>{d.price} ETB</span>
-          </li>
-        ))}
-      </ul>
+      <DishList dishes={categoryDishes} />
     </article>
   );
 }

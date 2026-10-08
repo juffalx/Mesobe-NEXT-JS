@@ -1,6 +1,6 @@
-# Addis Eats, Layouts and Rendering Strategies
+# Addis Eats, Server and Client Components
 
-Day 37 in-class exercise on the Next.js startup project.
+Day 38 in-class exercise, built on the Day 37 app. Day 37 notes are kept below.
 
 ## Run it
 
@@ -8,7 +8,21 @@ Day 37 in-class exercise on the Next.js startup project.
 npm install
 npm run dev
 npm run build
+npm run measure
 ```
+
+## Day 38: what changed
+
+| Step | Done in |
+| --- | --- |
+| Menu page is an async server component that awaits its dishes | `src/app/menu/page.js` |
+| No loading or error state in the page, `loading.js` and `error.js` hold them | `src/app/menu/loading.js`, `error.js` |
+| Cart provider in its own client component | `src/app/providers.jsx`, `src/cart/CartContext.jsx` |
+| `"use client"` only on small leaves | `FilterShell`, `CartBadge`, `AddToCartButton`, `CartList` |
+| Server `DishList` inside client `FilterShell` through `children` | `src/app/menu/page.js`, `src/app/menu/FilterShell.jsx` |
+| First Load JS before and after, and every component's side | `BOUNDARY.md` |
+
+## Day 37
 
 ## What was changed from the startup
 

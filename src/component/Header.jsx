@@ -1,8 +1,8 @@
 import Link from 'next/link'
+import CartBadge from './CartBadge'
 
 const links = [
   { href: '/menu', label: 'Menu' },
-  { href: '/cart', label: 'Cart' },
   { href: '/checkout', label: 'Checkout' },
 ]
 
@@ -18,6 +18,9 @@ export default function Header() {
             {link.label}
           </Link>
         ))}
+        <Link href="/cart">
+          Cart <CartBadge />
+        </Link>
       </nav>
     </header>
   )

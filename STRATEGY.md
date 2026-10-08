@@ -7,7 +7,7 @@ For every route two questions: does it depend on who is asking, and how stale ma
 | `/` | Static | The welcome text never changes between builds |
 | `/menu` | ISR, `revalidate = 3600` | Dishes change a few times a day, so an hour old is fine and speed matters most |
 | `/menu/[id]` | Static via `generateStaticParams` | The ids are known at build time: one page per dish and one per category. `dynamicParams = false` makes anything else a real 404 |
-| `/cart` | Client (`'use client'`) | The cart is the person's own state and private |
+| `/cart` | Static shell with a client leaf | `page.js` is a server component, `CartList` is client and reads the cart context, because the cart is the person's own private state |
 | `/checkout` | Dynamic | Reads the `session` cookie with `cookies()`, and `checkout/layout.js` also sets `dynamic = 'force-dynamic'` for everything under it |
 | `/docs/[[...slug]]` | Dynamic | Optional catch-all with no `generateStaticParams`, so the build cannot know the paths |
 | `/order/history` | Static for now | A placeholder. Once it shows a real person's orders it must become dynamic |
@@ -25,7 +25,7 @@ For every route two questions: does it depend on who is asking, and how stale ma
 
 ## Streaming
 
-- `menu/page.js` wraps `DishList` in `Suspense`, so the sidebar and heading render first and a skeleton holds the place of the dishes
+- `menu/page.js` awaits the dishes itself, and `menu/loading.js` shows the skeleton while it waits, so the sidebar renders first
 - `getDishes` waits 800 ms on purpose so the skeleton is visible in `npm run dev`. In the production build the page is already static, so nothing streams
 - `menu/loading.js` covers the whole segment while a dish page loads
 
