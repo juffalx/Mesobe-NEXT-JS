@@ -1,7 +1,1 @@
-import React from 'react';
-
-const NotFound = () => {
-  return <div>አረ አልተገኘም </div>;
-};
-
-export default NotFound;
+export { default } from '@/component/NotFound404/NotFound404';

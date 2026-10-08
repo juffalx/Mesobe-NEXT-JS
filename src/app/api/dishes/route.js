@@ -1,7 +1,6 @@
-import { db } from '@/lib/db';
+import { getDishes } from '@/lib/menu';
 
 export async function GET() {
-  const dishes = await db.dish.findMany();
-
+  const dishes = await getDishes();
   return Response.json(dishes);
 }

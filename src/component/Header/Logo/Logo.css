@@ -1,0 +1,9 @@
+.logo{
+    
+    display: flex;
+    min-width: 340.28px;
+    min-height:60px;
+    gap: 12px;
+    align-items: center;
+    color: #7A1401;
+}

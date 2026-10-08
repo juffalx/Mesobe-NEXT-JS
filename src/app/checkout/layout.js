@@ -1,5 +1,5 @@
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 export default function CheckoutLayout({ children }) {
-  return children
+  return children;
 }

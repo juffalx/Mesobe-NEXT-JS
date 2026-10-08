@@ -1,51 +1,39 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { orderSchema } from '@/lib/schema';
-import { createOrder, getOrder, getSession, markCancelled } from '@/lib/db';
+import { z } from 'zod';
+import { loginSchema, signupSchema } from '@/lib/schemas';
+import { createSession, destroySession } from '@/lib/session';
+import { processOrder } from '@/lib/orders';
 
-export async function placeOrder(prevState, formData) {
-  const data = {
-    name: formData.get('name'),
-    phone: formData.get('phone'),
-    dishId: formData.get('dishId'),
-    quantity: Number(formData.get('quantity')),
-    notes: formData.get('notes'),
-  };
-
-  const result = orderSchema.safeParse(data);
-
-  if (!result.success) {
-    return {
-      fieldErrors: result.error.flatten().fieldErrors,
-    };
+export async function signIn(input) {
+  const parsed = loginSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
-
-  const order = await createOrder(result.data);
-
-  revalidatePath('/orders');
-
-  return {
-    id: order.id,
-  };
+  const user = { phone: parsed.data.phone };
+  await createSession(user);
+  return { ok: true, user };
 }
 
-export async function cancelOrder(orderId) {
-  const user = await getSession();
-
-  if (!user) {
-    throw new Error('Not signed in');
+export async function signUp(input) {
+  const parsed = signupSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
+  const { name, phone, email } = parsed.data;
+  const user = { name, phone, email };
+  await createSession(user);
+  return { ok: true, user };
+}
 
-  const order = await getOrder(orderId);
+export async function signOut() {
+  await destroySession();
+}
 
-  if (!order) {
-    throw new Error('Order not found');
+export async function placeOrder(input) {
+  const { status, body } = await processOrder(input);
+  if (status !== 201) {
+    return { ok: false, status, ...body };
   }
-
-  if (order.userId !== user.id) {
-    throw new Error('Not your order');
-  }
-
-  await markCancelled(orderId);
+  return { ok: true, orderNo: body.order.orderNo };
 }

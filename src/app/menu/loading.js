@@ -1,5 +1,3 @@
-import DishSkeleton from '../../component/DishSkeleton'
-
 export default function Loading() {
-  return <DishSkeleton />
+  return <div className="loading-state">Loading Mesob House...</div>;
 }

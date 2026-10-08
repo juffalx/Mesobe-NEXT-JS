@@ -1,12 +1,13 @@
-'use client'
+'use client';
 
-export default function Error({ reset }) {
+export default function MenuError({ reset }) {
   return (
-    <div>
-      <p>Something went wrong with the menu.</p>
-      <button onClick={reset} className="mt-2 rounded bg-yellow-400 px-4 py-2">
+    <main className="error-page">
+      <h1>Something went wrong</h1>
+      <p>We could not load the menu of Mesob House.</p>
+      <button className="btn-red" onClick={reset}>
         Try again
       </button>
-    </div>
-  )
+    </main>
+  );
 }

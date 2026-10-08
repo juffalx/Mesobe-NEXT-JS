@@ -1,21 +1,23 @@
 import './globals.css';
 import Providers from './providers';
-import Header from '../component/Header';
-import Footer from '../component/Footer';
+import Header from '@/component/Header/Header';
+import Footer from '@/component/Footer/Footer';
 
 export const metadata = {
-  title: 'Addis Eats',
-  description: 'Ethiopian food, delivered in Addis Ababa',
+  title: 'Mesob House',
+  description: 'Handcrafted Ethiopian wats and honey wine, delivered hot across Addis Ababa',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body>
         <Providers>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
+          <div className="main-layout">
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

@@ -1,0 +1,31 @@
+.logo{
+    top: 10;
+    left: 32;
+    display: flex;
+    min-width: 340.28px;
+    min-height:60px;
+    gap: 12px;
+    align-items: center;
+    color: #7A1401;
+}.logo-img{
+    top: 14;
+    width: 204.28px;
+    height: 32px;
+}.logo-link{
+    left: 216.28;
+    width: 124px;
+    height: 60px;
+    padding-right: 60.98px;
+    color: #7A1401;
+}
+
+.logo-title{
+    width: 64px;
+    height: 60px;
+    font-family:'Times New Roman', Times, serif;
+    line-height: 30px;
+    font-weight: 600;
+    letter-spacing: 0.55px;
+    color: #7A1401;
+
+}

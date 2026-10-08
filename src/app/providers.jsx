@@ -1,7 +1,14 @@
-'use client'
+'use client';
 
-import { CartProvider } from '../cart/CartContext'
+import { useEffect } from 'react';
+import { useCartStore } from '@/store/useCartStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function Providers({ children }) {
-  return <CartProvider>{children}</CartProvider>
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+    useAuthStore.persist.rehydrate();
+  }, []);
+
+  return children;
 }
