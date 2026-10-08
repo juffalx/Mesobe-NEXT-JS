@@ -1,0 +1,12 @@
+.forms{
+    background-color: antiquewhite;
+    color: black;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    padding:10px;
+
+}
