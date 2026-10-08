@@ -1,14 +1,24 @@
-import Link from 'next/link';
-const Header = () => {
-  return (
-    <div>
-      <h1 className="text-red-900 bg-yellow-300 flex gap-20">SOME TITLE</h1>
-      <p>
-        <Link href="/cart">Cart</Link>
-      </p>
-      <Link href="/menu">Menu</Link>
-    </div>
-  );
-};
+import Link from 'next/link'
 
-export default Header;
+const links = [
+  { href: '/menu', label: 'Menu' },
+  { href: '/cart', label: 'Cart' },
+  { href: '/checkout', label: 'Checkout' },
+]
+
+export default function Header() {
+  return (
+    <header className="flex items-center justify-between bg-yellow-300 px-6 py-4 text-red-900">
+      <Link href="/" className="text-xl font-bold">
+        Addis Eats
+      </Link>
+      <nav className="flex gap-6">
+        {links.map((link) => (
+          <Link key={link.href} href={link.href}>
+            {link.label}
+          </Link>
+        ))}
+      </nav>
+    </header>
+  )
+}

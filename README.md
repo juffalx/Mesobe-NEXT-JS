@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Addis Eats, Layouts and Rendering Strategies
 
-## Getting Started
+Day 37 in-class exercise on the Next.js startup project.
 
-First, run the development server:
+## Run it
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What was changed from the startup
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+| Step | Done in |
+| --- | --- |
+| Root layout owns html and body, with header, footer and `globals.css` | `src/app/layout.js`, `src/component/Header.jsx`, `src/component/Footer.jsx` |
+| Menu layout with a sidebar that persists | `src/app/menu/layout.js` |
+| `revalidate` on the menu route, build shows it static with 1h | `src/app/menu/page.js` |
+| `generateStaticParams` on `[id]`, 10 pages in the build (7 dishes and 3 categories) | `src/app/menu/[id]/page.js` |
+| Checkout forced dynamic | `src/app/checkout/layout.js`, `src/app/checkout/page.js` |
+| Dish list wrapped in Suspense | `src/app/menu/page.js`, `src/component/DishList.jsx` |
+| Every route, its strategy and why | `STRATEGY.md` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Problems fixed in the startup
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm install` failed with ERESOLVE: `eslint-config-next` was on version 14 while Next is 16. It now matches Next at `16.3.8`
+- `app/cart/page.js` was both `'use client'` and `async`, and used an undefined `response`, so the build broke
+- The dish folder was `[dish]` and threw an Error for a missing dish. It is now `[id]` and a missing dish is a 404
+- The 3 second delay was moved from the dish page to the dish list, so the Suspense skeleton shows
+- The root layout used `next/font/google`, which needs internet at build time, so it was removed. `globals.css` already sets the font

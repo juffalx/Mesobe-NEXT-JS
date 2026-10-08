@@ -1,7 +1,5 @@
-import React from 'react';
+import DishSkeleton from '../../component/DishSkeleton'
 
-const Loading = () => {
-  return <div>wait it's Loading ...</div>;
-};
-
-export default Loading;
+export default function Loading() {
+  return <DishSkeleton />
+}
