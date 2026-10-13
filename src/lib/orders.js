@@ -12,7 +12,10 @@ export async function processOrder(input) {
   if (!parsed.success) {
     return {
       status: 422,
-      body: { error: 'Validation failed', fieldErrors: z.flattenError(parsed.error).fieldErrors },
+      body: {
+        error: 'Validation failed',
+        fieldErrors: z.flattenError(parsed.error).fieldErrors,
+      },
     };
   }
 
@@ -26,7 +29,10 @@ export async function processOrder(input) {
   if (coupon && coupon !== COUPON_CODE) {
     return {
       status: 422,
-      body: { error: 'Validation failed', fieldErrors: { coupon: ['Invalid coupon code'] } },
+      body: {
+        error: 'Validation failed',
+        fieldErrors: { coupon: ['Invalid coupon code'] },
+      },
     };
   }
 
@@ -61,4 +67,28 @@ export async function processOrder(input) {
   orders.push(order);
 
   return { status: 201, body: { order } };
+}
+
+const STEPS = [
+  { status: 'PENDING', after: 0 },
+  { status: 'PREPARING', after: 10 },
+  { status: 'ON_THE_WAY', after: 25 },
+  { status: 'DELIVERED', after: 40 },
+];
+
+function currentStatus(order) {
+  const seconds = (Date.now() - new Date(order.createdAt).getTime()) / 1000;
+  return STEPS.findLast((step) => seconds >= step.after).status;
+}
+
+export async function getOrder(orderNo) {
+  const session = await getSession();
+  if (!session) return null;
+
+  const order = orders.find(
+    (item) => item.orderNo === orderNo && item.owner === session.phone
+  );
+  if (!order) return null;
+
+  return { ...order, status: currentStatus(order) };
 }
