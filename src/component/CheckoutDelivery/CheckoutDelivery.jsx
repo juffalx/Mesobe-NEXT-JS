@@ -131,7 +131,10 @@ function CheckoutDelivery() {
             {placed.phone}.
           </p>
           <div className="confirm-actions">
-            <Link href="/" className="btn-red">
+            <Link href={`/orders/${placed.orderNo}`} className="btn-red">
+              Track my order
+            </Link>
+            <Link href="/" className="btn-ghost">
               Return to Today&apos;s Specials
             </Link>
             <Link href="/menu" className="btn-ghost">
