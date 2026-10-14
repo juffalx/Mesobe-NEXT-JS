@@ -30,7 +30,7 @@ Why each one: `STRATEGY.md`. Which component runs where: `BOUNDARY.md`.
 
 | Method and path | Success | Failure |
 | --- | --- | --- |
-| `GET /api/dishes` | 200, list of dishes | |
+| `GET /api/dishes` | 200, `{ items, total, pages, page }`. Optional `q`, `cat` and `page` (8 per page) | |
 | `GET /api/dishes/[id]` | 200, one dish | 404 `{ "error": "Dish not found" }` |
 | `POST /api/orders` | 201 `{ order }` | 400 bad JSON, 422 `{ error, fieldErrors }`, 401 not signed in |
 

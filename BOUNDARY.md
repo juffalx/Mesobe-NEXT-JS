@@ -13,8 +13,10 @@ Every component, which side it runs on, and why.
 | `app/page.js`, `TodaySpecial.jsx`, `Section4-6.jsx` | Server | Static text, one dish read at build time |
 | `component/common/AddToCartButton.jsx` | Client | `onClick` that writes to the cart store. Receives a plain `dish` object. Used on the home page, the menu cards and the 404 page |
 | `app/menu/page.js` | Server | `async`, awaits the dishes directly, `revalidate = 3600` |
-| `component/FullMenu/MenuBrowser.jsx` | Client | Holds the search text and the selected category |
-| `component/FullMenu/DishCard.jsx` | Server | Card markup. It reaches the client filter as an element inside the `cards` prop |
+| `component/FullMenu/MenuBrowser.jsx` | Client | Holds the search text, the category and the page. Uses SWR for search results and for page two onward |
+| `component/FullMenu/Pager.jsx` | Client | Previous and next buttons. Only used inside `MenuBrowser` |
+| `app/orders/[id]/OrderStatus.jsx` | Client | SWR hook that polls the order status every five seconds. Receives the order the server rendered as `initial` |
+| `component/FullMenu/DishCard.jsx` | Server and client | Card markup. Page one reaches the client filter as a server-rendered element inside the `cards` prop. Search results are rendered by `MenuBrowser` itself, so the card is also part of the client bundle |
 | `component/FullMenu/MenuCartBar.jsx` | Client | Reads the cart store. Mounted by `menu/layout.js` |
 | `app/menu/layout.js` | Server | Passes `children` through and mounts the bar |
 | `app/menu/[id]/page.js` | Server | `async`, `generateStaticParams`, `notFound()` |
@@ -22,6 +24,7 @@ Every component, which side it runs on, and why.
 | `component/RoyalDish/DishOrderPanel.jsx` | Client | Option, quantity and side state, and the add button. The price in the title changes with the options |
 | `app/cart/page.js` | Server | Only renders the client leaf |
 | `component/CurrentOrderCart/CurrentOrderCart.jsx` | Client | Lists, changes and clears items, applies the coupon, all from the cart store |
+| `app/orders/[id]/page.js` | Server | Reads the session and the order, then renders the page and the client status |
 | `app/checkout/page.js` | Server | Reads the `session` cookie through `getSession()` and redirects guests |
 | `component/CheckoutDelivery/CheckoutDelivery.jsx` | Client | react-hook-form, the Telebirr verify step, and the call to the `placeOrder` action |
 | `component/Login/Login.jsx`, `Signup/Signup.jsx` | Client | react-hook-form forms that call the `signIn` and `signUp` actions |
