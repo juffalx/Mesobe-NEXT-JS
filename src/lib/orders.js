@@ -77,6 +77,7 @@ const STEPS = [
 ];
 
 function currentStatus(order) {
+  if (order.cancelledAt) return 'CANCELLED';
   const seconds = (Date.now() - new Date(order.createdAt).getTime()) / 1000;
   return STEPS.findLast((step) => seconds >= step.after).status;
 }
@@ -98,4 +99,23 @@ export async function getOrdersFor(phone) {
     .filter((order) => order.owner === phone)
     .map((order) => ({ ...order, status: currentStatus(order) }))
     .reverse();
+}
+
+export async function cancelUserOrder(orderNo) {
+  const session = await getSession();
+  if (!session) return { status: 401, error: 'Please sign in' };
+
+  const order = orders.find((item) => item.orderNo === orderNo);
+  if (!order) return { status: 404, error: 'No such order' };
+  if (order.owner !== session.phone) {
+    return { status: 403, error: 'This order is not yours' };
+  }
+
+  const status = currentStatus(order);
+  if (status !== 'PENDING' && status !== 'PREPARING') {
+    return { status: 409, error: 'It is too late to cancel this order' };
+  }
+
+  order.cancelledAt = new Date().toISOString();
+  return { status: 200 };
 }

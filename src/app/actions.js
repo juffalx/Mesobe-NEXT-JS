@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '@/lib/schemas';
 import { createSession, destroySession } from '@/lib/session';
-import { processOrder } from '@/lib/orders';
+import { cancelUserOrder, processOrder } from '@/lib/orders';
 import { addUser, checkUser } from '@/lib/users';
 
 export async function signIn(input) {
@@ -49,4 +49,12 @@ export async function placeOrder(input) {
     return { ok: false, status, ...body };
   }
   return { ok: true, orderNo: body.order.orderNo };
+}
+
+export async function cancelOrder(orderNo) {
+  if (typeof orderNo !== 'string') return { ok: false, error: 'Bad request' };
+
+  const { status, error } = await cancelUserOrder(orderNo);
+  if (status !== 200) return { ok: false, status, error };
+  return { ok: true };
 }
