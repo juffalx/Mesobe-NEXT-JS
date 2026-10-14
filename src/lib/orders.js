@@ -119,3 +119,12 @@ export async function cancelUserOrder(orderNo) {
   order.cancelledAt = new Date().toISOString();
   return { status: 200 };
 }
+
+export async function getKitchenOrders() {
+  const session = await getSession();
+  if (session?.role !== 'staff') return null;
+
+  return orders
+    .map((order) => ({ ...order, status: currentStatus(order) }))
+    .reverse();
+}
