@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { loginSchema } from '@/lib/schemas';
 import { signIn } from '@/app/actions';
 import { nextPath } from '@/lib/nextPath';
+import Image from 'next/image';
 
 function Login() {
   const login = useAuthStore((state) => state.login);
@@ -50,7 +51,14 @@ function Login() {
           <h1>A table shared is a <em>bond celebrated.</em></h1>
           <p className="auth-copy">Sign into your culinary sanctuary. Track your seasonal fasting platters, express your Je Buna preferences, and summon traditional Addis feasts straight to your door.</p>
           <div className="side-img-wrap">
-            <img src="/login-image.png" alt="Sunday Je Buna Buna Circle" style={{ minHeight: 180 }} />
+            <Image
+              src="/login-image.png"
+              alt="Sunday Je Buna Buna Circle"
+              width={0}
+              height={0}
+              sizes="(max-width: 900px) 100vw, 40vw"
+              style={{ minHeight: 180, width: '100%', height: 'auto' }}
+            />
             <span className="side-img-tag">Sunday Je Buna Circle · Exclusive roasting access for verified members</span>
           </div>
           <ul className="perk-list">

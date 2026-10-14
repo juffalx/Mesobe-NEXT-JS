@@ -12,6 +12,7 @@ import { useHydrated } from '@/store/useHydrated';
 import { checkoutSchema } from '@/lib/schemas';
 import { fmt } from '@/lib/format';
 import { placeOrder } from '@/app/actions';
+import Image from 'next/image';
 
 const defaultValues = {
   name: 'Mohammed Yasin',
@@ -400,10 +401,13 @@ function CheckoutDelivery() {
           </div>
           {cart.items.map((item) => (
             <div className="summary-item" key={item.id + (item.option || '')}>
-              <img
+              <Image
                 className="img-box"
                 src={`/asset/${item.forImg}.jpg`}
                 alt={`${item.name} photo`}
+                width={108}
+                height={60}
+                sizes="54px"
                 style={{ minHeight: 54, width: 54, borderRadius: 8 }}
               />
               <div>

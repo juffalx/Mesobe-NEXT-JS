@@ -8,6 +8,7 @@ import { useCart } from '@/store/useCartStore';
 import { useHydrated } from '@/store/useHydrated';
 import { COUPON_CODE, FREE_DELIVERY_MIN } from '@/lib/pricing';
 import { fmt } from '@/lib/format';
+import Image from 'next/image';
 
 function CurrentOrderCart() {
   const cart = useCart();
@@ -83,7 +84,7 @@ function CurrentOrderCart() {
 
             {cart.items.map((i) => (
               <article className="cart-item" key={i.id + (i.option || '')}>
-                <img
+                <Image
                   className="img-box"
                   src={
                     i.forImg
@@ -91,6 +92,9 @@ function CurrentOrderCart() {
                       : '/asset/empty-mesob.jpg'
                   }
                   alt={`${i.name} photo`}
+                  width={220}
+                  height={123}
+                  sizes="110px"
                   style={{
                     minHeight: 90,
                     width: 110,

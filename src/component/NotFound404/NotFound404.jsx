@@ -3,6 +3,7 @@ import './NotFound404.css';
 import AddToCartButton from '@/component/common/AddToCartButton';
 import { getDishes } from '@/lib/menu';
 import { fmt } from '@/lib/format';
+import Image from 'next/image';
 
 const FAV_IDS = ['doro-wat', 'siga-derek-tibs', 'shiro-tegamino'];
 
@@ -17,10 +18,13 @@ export default async function NotFound404() {
     <main className="nf-page">
       <div className="nf-hero">
         <div className="empty-mesob">
-          <img
+          <Image
             className="img-box"
             src="/asset/empty-mesob.jpg"
             alt="Empty Mesob"
+            width={130}
+            height={130}
+            sizes="130px"
             style={{
               minHeight: 130,
               width: 130,
@@ -74,10 +78,13 @@ export default async function NotFound404() {
           {favorites.map((f) => (
             <article className="nf-card" key={f.id}>
               <div className="nf-card-img">
-                <img
+                <Image
                   className="img-box"
                   src={`/asset/${f.forImg}.jpg`}
                   alt={`${f.name} photo`}
+                  width={1376}
+                  height={768}
+                  sizes="(max-width: 700px) 100vw, 33vw"
                   style={{
                     minHeight: 150,
                     borderRadius: '12px 12px 0 0',
