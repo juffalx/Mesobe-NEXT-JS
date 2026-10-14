@@ -218,3 +218,8 @@ a {
   background: var(--peach-2);
   color: var(--ink);
 }
+
+img.img-box {
+  height: auto;
+  object-fit: cover;
+}

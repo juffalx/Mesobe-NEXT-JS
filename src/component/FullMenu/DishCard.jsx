@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AddToCartButton from '@/component/common/AddToCartButton';
 import { fmt } from '@/lib/format';
+import Image from 'next/image';
 
 export default function DishCard({ dish }) {
   const cartDish = { id: dish.id, forImg: dish.forImg, name: dish.name, price: dish.price };
@@ -8,10 +9,13 @@ export default function DishCard({ dish }) {
   return (
     <article className="menu-card">
       <div className="menu-card-img">
-        <img
+        <Image
           className="img-box"
           src={`/asset/${dish.forImg}.jpg`}
           alt={`${dish.name} photo`}
+          width={1376}
+          height={768}
+          sizes="(max-width: 800px) 50vw, (max-width: 1100px) 33vw, 25vw"
           style={{
             minHeight: 170,
             borderRadius: '12px 12px 0 0',

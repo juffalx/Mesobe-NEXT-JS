@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import './RoyalDish.css';
 import DishOrderPanel from './DishOrderPanel';
 
@@ -11,33 +12,46 @@ export default function RoyalDish({ dish }) {
       <div className="doro-grid">
         <div className="doro-left">
           <div className="gallery">
-            <img
+            <Image
               className="img-box"
               src={`/asset/${dish.forImg}.jpg`}
               alt={`${dish.name} photo`}
+              width={1376}
+              height={768}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              priority
               style={{ minHeight: 360 }}
             />
             <span className="badge gallery-tag">HOUSE SIGNATURE</span>
             <span className="badge green gallery-tag-2">100% TEFF OPTION</span>
             <div className="thumbs">
-              <img
+              <Image
                 className="img-box"
                 src={`/asset/${dish.forImg}.jpg`}
                 alt={`${dish.name} thumbnail 1`}
+                width={1376}
+                height={768}
+                sizes="(max-width: 900px) 33vw, 17vw"
                 style={{ minHeight: 80 }}
               />
 
-              <img
+              <Image
                 className="img-box"
                 src={`/asset/${dish.forImg}.jpg`}
                 alt={`${dish.name} thumbnail 2`}
+                width={1376}
+                height={768}
+                sizes="(max-width: 900px) 33vw, 17vw"
                 style={{ minHeight: 80 }}
               />
 
-              <img
+              <Image
                 className="img-box"
                 src={`/asset/${dish.forImg}.jpg`}
                 alt={`${dish.name} thumbnail 3`}
+                width={1376}
+                height={768}
+                sizes="(max-width: 900px) 33vw, 17vw"
                 style={{ minHeight: 80 }}
               />
             </div>
