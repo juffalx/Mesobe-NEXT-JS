@@ -55,6 +55,10 @@ The last one returns 422 with `fieldErrors.phone`. With a valid body and no `ses
 
 Sign in checks the password against a scrypt hash. Users and sessions are kept in server memory, so a restart signs everyone out. A staff account exists for `/kitchen` (see `AUTH.md`).
 
+## Environment
+
+Copy `.env.example` to `.env.local` and set `STAFF_PASSWORD`. In development it is optional (default `kitchen123`). In production the server will not start without it. See `PERF.md` for the other Day 43 changes (images, fonts, headers).
+
 ## Checks I ran on the production build
 
 | Check | Result |
