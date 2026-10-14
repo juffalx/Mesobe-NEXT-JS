@@ -4,13 +4,20 @@ import { z } from 'zod';
 import { loginSchema, signupSchema } from '@/lib/schemas';
 import { createSession, destroySession } from '@/lib/session';
 import { processOrder } from '@/lib/orders';
+import { addUser, checkUser } from '@/lib/users';
 
 export async function signIn(input) {
   const parsed = loginSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
-  const user = { phone: parsed.data.phone };
+  const user = checkUser(parsed.data.phone, parsed.data.password);
+  if (!user) {
+    return {
+      ok: false,
+      fieldErrors: { password: ['Phone number or password is incorrect.'] },
+    };
+  }
   await createSession(user);
   return { ok: true, user };
 }
@@ -20,8 +27,14 @@ export async function signUp(input) {
   if (!parsed.success) {
     return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
-  const { name, phone, email } = parsed.data;
-  const user = { name, phone, email };
+  const { name, phone, email, password } = parsed.data;
+  const user = addUser({ name, phone, email, password });
+  if (!user) {
+    return {
+      ok: false,
+      fieldErrors: { phone: ['This phone number is already registered.'] },
+    };
+  }
   await createSession(user);
   return { ok: true, user };
 }

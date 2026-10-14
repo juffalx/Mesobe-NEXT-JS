@@ -36,7 +36,7 @@ function Login() {
       return;
     }
     login(result.user);
-    setWelcome('Selam! You are signed in (demo — no real backend yet).');
+    setWelcome('Selam! You are signed in.');
     await new Promise((resolve) => setTimeout(resolve, 700));
     router.push(nextPath());
   };
