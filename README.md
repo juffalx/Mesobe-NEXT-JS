@@ -48,11 +48,12 @@ The last one returns 422 with `fieldErrors.phone`. With a valid body and no `ses
 
 | Action | Does |
 | --- | --- |
-| `signIn`, `signUp` | Validate with the same zod schema as the form, then set an httpOnly `session` cookie |
+| `signIn`, `signUp` | Validate with the same zod schema as the form, check or create the user, then set an httpOnly `session` cookie |
+| `cancelOrder` | Checks the session, then that the order belongs to it, then that it is not too late |
 | `signOut` | Deletes the session |
 | `placeOrder` | Validates the form and the lines, checks the session, re-prices every line on the server and checks the coupon |
 
-The session is a demo: any valid phone and password signs in, and sessions are kept in server memory, so a restart signs everyone out. Real sessions come on Day 42.
+Sign in checks the password against a scrypt hash. Users and sessions are kept in server memory, so a restart signs everyone out. A staff account exists for `/kitchen` (see `AUTH.md`).
 
 ## Checks I ran on the production build
 

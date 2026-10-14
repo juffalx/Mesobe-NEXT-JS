@@ -25,13 +25,16 @@ Every component, which side it runs on, and why.
 | `app/cart/page.js` | Server | Only renders the client leaf |
 | `component/CurrentOrderCart/CurrentOrderCart.jsx` | Client | Lists, changes and clears items, applies the coupon, all from the cart store |
 | `app/orders/[id]/page.js` | Server | Reads the session and the order, then renders the page and the client status |
+| `app/orders/page.js` | Server | Lists the orders of the signed-in phone number |
+| `app/kitchen/page.js` | Server | Staff only. The role check is inside `getKitchenOrders()` |
+| `proxy.js` | Server (runs before the page) | Redirects guests from `/checkout`, `/orders` and `/kitchen` |
 | `app/checkout/page.js` | Server | Reads the `session` cookie through `getSession()` and redirects guests |
 | `component/CheckoutDelivery/CheckoutDelivery.jsx` | Client | react-hook-form, the Telebirr verify step, and the call to the `placeOrder` action |
 | `component/Login/Login.jsx`, `Signup/Signup.jsx` | Client | react-hook-form forms that call the `signIn` and `signUp` actions |
 | `component/NotFound404/NotFound404.jsx` | Server | `async`, picks three favourite dishes from the data |
 | `app/error.js`, `app/menu/error.js` | Client | `"use client"` is required, error boundaries need state |
-| `app/actions.js` | Server only | `"use server"`. `signIn`, `signUp`, `signOut`, `placeOrder`. Every one of them is a public endpoint and validates its input |
-| `lib/menu.js`, `lib/session.js`, `lib/orders.js` | Server only | `import 'server-only'`, so importing them from a client file breaks the build |
+| `app/actions.js` | Server only | `"use server"`. `signIn`, `signUp`, `signOut`, `placeOrder`, `cancelOrder`. Every one of them is a public endpoint and validates its input |
+| `lib/menu.js`, `lib/session.js`, `lib/orders.js`, `lib/users.js` | Server only | `import 'server-only'`, so importing them from a client file breaks the build |
 | `lib/schemas.js`, `pricing.js`, `format.js`, `categories.js` | Shared | Plain functions and data with no server or client API. The forms and the server use the same schemas and the same price function |
 
 `"use client"` appears in 13 files: `providers.jsx`, `LogoLink`, `CartForm`, `AddToCartButton`, `MenuBrowser`, `MenuCartBar`, `DishOrderPanel`, `CurrentOrderCart`, `CheckoutDelivery`, `Login`, `Signup` and the two `error.js` files. None of them sits on a page or a layout.

@@ -10,6 +10,7 @@ For every route two questions: does it depend on who is asking, and how stale ma
 | `/cart` | Static shell with a client leaf | The cart lives in this browser (localStorage), so the server cannot know it. `page.js` is a server component, `CurrentOrderCart` is the client leaf |
 | `/checkout` | Dynamic | `getSession()` reads the `session` cookie with `cookies()`, so the answer depends on the request. `checkout/layout.js` also sets `force-dynamic` for anything added under it later |
 | `/login`, `/signup` | Static shell with a client form | Same markup for everyone. The session cookie is set later by a server action, not while rendering |
+| `/orders`, `/orders/[id]`, `/kitchen` | Dynamic | Read the session cookie, so the answer depends on the request. The status on `/orders/[id]` is then polled by SWR |
 | `/api/dishes`, `/api/dishes/[id]`, `/api/orders` | Dynamic (route handlers) | Called by something outside the pages. `POST` can never be static |
 | not-found | Static | One 404 page for every unknown path and for `notFound()` |
 
