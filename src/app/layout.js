@@ -2,6 +2,7 @@ import './globals.css';
 import Providers from './providers';
 import Header from '@/component/Header/Header';
 import Footer from '@/component/Footer/Footer';
+import { sans, serif } from './fonts';
 
 export const metadata = {
   title: 'Mesob House',
@@ -10,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
       <body>
         <Providers>
           <div className="main-layout">
