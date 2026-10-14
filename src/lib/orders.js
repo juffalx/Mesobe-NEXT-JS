@@ -92,3 +92,10 @@ export async function getOrder(orderNo) {
 
   return { ...order, status: currentStatus(order) };
 }
+
+export async function getOrdersFor(phone) {
+  return orders
+    .filter((order) => order.owner === phone)
+    .map((order) => ({ ...order, status: currentStatus(order) }))
+    .reverse();
+}

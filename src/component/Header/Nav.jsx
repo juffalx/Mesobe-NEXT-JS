@@ -8,6 +8,7 @@ export default function Nav() {
       <Link href="/"><p>Featured Dish</p></Link>
       <Link href="/cart"><p>Order & Cart</p></Link>
       <Link href="/checkout"><p>Delivery & Checkout</p></Link>
+      <Link href="/orders"><p>My Orders</p></Link>
     </div>
   );
 }
