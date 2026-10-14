@@ -166,3 +166,17 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.pager .chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
