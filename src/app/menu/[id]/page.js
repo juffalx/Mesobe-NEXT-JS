@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import RoyalDish from '@/component/RoyalDish/RoyalDish';
+import JsonLd from '@/component/JsonLd';
+import { SITE_URL } from '@/lib/site';
 import { getDish, getDishes } from '@/lib/menu';
 
 export const dynamicParams = false;
@@ -37,5 +39,24 @@ export default async function DishPage({ params }) {
 
   if (!dish) notFound();
 
-  return <RoyalDish dish={dish} />;
+  const menuItem = {
+    '@context': 'https://schema.org',
+    '@type': 'MenuItem',
+    name: dish.name,
+    description: dish.desc,
+    image: `${SITE_URL}/asset/${dish.forImg}.jpg`,
+    url: `${SITE_URL}/menu/${dish.id}`,
+    offers: {
+      '@type': 'Offer',
+      price: dish.price,
+      priceCurrency: 'ETB',
+    },
+  };
+
+  return (
+    <>
+      <JsonLd data={menuItem} />
+      <RoyalDish dish={dish} />
+    </>
+  );
 }

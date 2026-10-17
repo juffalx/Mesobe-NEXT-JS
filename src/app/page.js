@@ -1,4 +1,6 @@
 import TodaySpecial from '@/component/TodaySpecial/TodaySpecial';
+import JsonLd from '@/component/JsonLd';
+import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata = {
   description:
@@ -6,6 +8,22 @@ export const metadata = {
   alternates: { canonical: '/' },
 };
 
+const restaurant = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: SITE_NAME,
+  url: SITE_URL,
+  description:
+    'Handcrafted Ethiopian wats and honey wine, delivered hot across Addis Ababa.',
+  servesCuisine: 'Ethiopian',
+  areaServed: 'Addis Ababa',
+};
+
 export default function HomePage() {
-  return <TodaySpecial />;
+  return (
+    <>
+      <JsonLd data={restaurant} />
+      <TodaySpecial />
+    </>
+  );
 }
