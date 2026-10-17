@@ -10,7 +10,7 @@ export default function LogoLink() {
   return (
     <div className="logo-link">
       <Link href={destination}>
-        <h1 className="logo-title">Mesob House</h1>
+        <p className="logo-title">Mesob House</p>
       </Link>
     </div>
   );

@@ -1,6 +1,7 @@
 .footer-brand-title {
   font-family: var(--serif);
   font-size: 22px;
+  font-weight: bold;
   color: var(--red);
 }
 

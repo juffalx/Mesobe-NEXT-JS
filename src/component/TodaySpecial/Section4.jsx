@@ -17,7 +17,7 @@ export default function Section4({ dish }) {
         >
           ☕ AUTHENTIC CLAY JE BUNA CEREMONY
         </p>
-        <h2>Every Day at 4:00 PM</h2>
+        <h1>Every Day at 4:00 PM</h1>
         <p className="copy">
           Frankincense fills our courtyard as green Sidama beans are
           hand-roasted on iron, ground fresh, and brewed in traditional clay Je

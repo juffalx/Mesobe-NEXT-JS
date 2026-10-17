@@ -7,7 +7,7 @@ export default function FooterBrand() {
 
   return (
     <div className="footer-card footer-brand">
-      <h1 className="footer-brand-title">{title}</h1>
+      <p className="footer-brand-title">{title}</p>
 
       <div className="footer-brand-tagline">
         {tagline.map((line) => (
