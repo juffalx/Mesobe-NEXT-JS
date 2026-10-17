@@ -11,7 +11,7 @@
 
 Cookie flags: `httpOnly`, `sameSite: 'lax'`, `secure` (on in production, off in dev so plain `http://localhost` still works), `maxAge` 7 days.
 
-Users and sessions are kept in memory, so a server restart signs everyone out and removes accounts made with sign up. One staff account is created at start up (phone `900000001`, password `kitchen123`). This is for the course project only.
+Users and sessions are kept in memory, so a server restart signs everyone out and removes accounts made with sign up. One staff account is created the first time someone signs in or up. Its phone and password come from `STAFF_PHONE` and `STAFF_PASSWORD` (see `.env.example`). In development the password defaults to `kitchen123`. In production the server refuses to start without `STAFF_PASSWORD` (`src/instrumentation.js` checks the environment when the server boots).
 
 I chose a database session (the cookie holds an id) because it can be cancelled at once. The trade is one lookup per request.
 
