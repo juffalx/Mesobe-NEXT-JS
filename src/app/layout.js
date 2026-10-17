@@ -3,10 +3,21 @@ import Providers from './providers';
 import Header from '@/component/Header/Header';
 import Footer from '@/component/Footer/Footer';
 import { sans, serif } from './fonts';
+import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata = {
-  title: 'Mesob House',
-  description: 'Handcrafted Ethiopian wats and honey wine, delivered hot across Addis Ababa',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: `%s · ${SITE_NAME}`,
+    default: `${SITE_NAME} — Ethiopian food delivery in Addis Ababa`,
+  },
+  description:
+    'Handcrafted Ethiopian wats and honey wine, delivered hot across Addis Ababa in woven mesob packaging.',
+  openGraph: {
+    siteName: SITE_NAME,
+    locale: 'en_ET',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }) {
