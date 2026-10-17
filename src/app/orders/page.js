@@ -5,6 +5,11 @@ import { getOrdersFor } from '@/lib/orders';
 import { fmt } from '@/lib/format';
 import './orders.css';
 
+export const metadata = {
+  title: 'My orders',
+  robots: { index: false, follow: false },
+};
+
 export default async function OrdersPage() {
   const session = await getSession();
   if (!session) redirect('/login?next=/orders');

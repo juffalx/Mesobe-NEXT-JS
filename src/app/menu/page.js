@@ -2,6 +2,13 @@ import DishCard from '@/component/FullMenu/DishCard';
 import MenuBrowser from '@/component/FullMenu/MenuBrowser';
 import { getDishes } from '@/lib/menu';
 
+export const metadata = {
+  title: 'Menu',
+  description:
+    'Browse the full Mesob House menu: wats, tibs, fasting dishes and drinks. Search by name and order for delivery in Addis Ababa.',
+  alternates: { canonical: '/menu' },
+};
+
 export const revalidate = 3600;
 
 export default async function MenuPage() {

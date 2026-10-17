@@ -3,6 +3,11 @@ import { getSession } from '@/lib/session';
 import { getKitchenOrders } from '@/lib/orders';
 import '../orders/orders.css';
 
+export const metadata = {
+  title: 'Kitchen',
+  robots: { index: false, follow: false },
+};
+
 export default async function KitchenPage() {
   const session = await getSession();
   if (!session) redirect('/login?next=/kitchen');
