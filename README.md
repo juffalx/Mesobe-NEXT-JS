@@ -2,16 +2,50 @@
 
 Day 40 project. The Day 35 Mesob React capstone (Vite, React Router) rebuilt on the Next.js App Router with server components, route handlers and server actions.
 
-## Run it
+**Deployed:** not deployed yet. Put the address here after Day 48 (Vercel), and set `NEXT_PUBLIC_SITE_URL` to it before the build.
+
+## Run it from a fresh clone
 
 ```bash
+git clone <your repo address>
+cd <folder>
 npm install
+cp .env.example .env.local      # then set STAFF_PASSWORD (8 characters or more)
 npm run build
 npm run start
-npm run measure menu
 ```
 
+Then open http://localhost:3000. Use `npm run dev` only for writing code. Never measure on it.
+
+Useful commands:
+
+| Command | What it does |
+| --- | --- |
+| `npm run measure -- menu` | First Load JS of a route, after a build |
+| `npm run verify` | With the app running, runs the attacks and the discovery checks (see `AUTH.md`). Add an address to check another port: `node scripts/attacks.mjs http://localhost:3100` |
+
 Dish photos are not in this repo. Copy the Vite project's `public/asset` folder to `public/asset`, so `/asset/<forImg>.jpg` and `/asset/empty-mesob.jpg` resolve. If you also have `public/menu.json`, copy it to `public/menu.json` and the app reads it, otherwise it uses `src/lib/fallbackDishes.js`.
+
+## The documents
+
+| File | What is in it |
+| --- | --- |
+| `STRATEGY.md`, `BOUNDARY.md` | Week 8: rendering strategy per route, server and client boundary |
+| `DATA.md` | Day 41: where each piece of data is fetched, every query, its key and refresh rule |
+| `AUTH.md` | Day 42: layers per route, what each layer proves, the attacks and the line that stopped each one |
+| `PERF.md` | Day 43 and 45: what I measured, the budget table, what is still empty |
+| `SEO.md` | Day 44: metadata, previews, sitemap, what I checked |
+
+## Week 9 status
+
+| Area | Status | Evidence |
+| --- | --- | --- |
+| Accounts | Done | Sign in, sign up and sign out, hashed passwords, flagged cookie. `npm run verify` |
+| Protection | Done | Proxy, page check and a check in every action. `AUTH.md` |
+| Ownership | Done | Orders are found by the session phone. `npm run verify`, attack 2 |
+| Live data | Done | Order status polled every 5 s and seeded by the server. Menu search debounced, 300 ms. `DATA.md` |
+| Performance | Partly | Images are about 20 times smaller. First Load JS misses the 120 kB target. Lighthouse numbers are still empty in `PERF.md`. Needs you |
+| Discovery | Done | Titles, descriptions, previews, JSON-LD, sitemap, robots. Not yet checked on a live address. `SEO.md` |
 
 ## Routes
 
@@ -21,6 +55,8 @@ Dish photos are not in this repo. Copy the Vite project's `public/asset` folder 
 | `/menu` | ISR 1h | Dishes, search, category chips |
 | `/menu/[id]` | Static via params | One dish, options, add to cart |
 | `/cart` | Static shell, client leaf | Order lines, coupon, totals |
+| `/orders`, `/orders/[id]` | Dynamic | Your own orders, and a live order status |
+| `/kitchen` | Dynamic | Staff only |
 | `/checkout` | Dynamic | Guarded by the session cookie, validated server action |
 | `/login`, `/signup` | Static shell, client form | Forms that call server actions |
 
@@ -34,7 +70,7 @@ Why each one: `STRATEGY.md`. Which component runs where: `BOUNDARY.md`.
 | `GET /api/dishes/[id]` | 200, one dish | 404 `{ "error": "Dish not found" }` |
 | `POST /api/orders` | 201 `{ order }` | 400 bad JSON, 422 `{ error, fieldErrors }`, 401 not signed in |
 
-The pages do not call `/api/dishes`, they read the data directly in server components. The handlers exist for outside callers and for the curl checks below.
+Server components read the data directly. Only the client search and page 2 onward call `/api/dishes`. The order status page polls `GET /api/orders/[id]`. The handlers also serve outside callers and the curl checks below.
 
 ```bash
 curl localhost:3000/api/dishes | head
