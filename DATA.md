@@ -2,6 +2,18 @@
 
 Server components still do every read that can be done on the server. SWR is only used where the person triggers the fetch or where the data must refresh on its own.
 
+## Where each piece of data is fetched
+
+The rule: on the server unless the person triggers it, or it must refresh on its own.
+
+| Data | Where | Why |
+| --- | --- | --- |
+| Menu and dishes | Server (`getDishes`, `getDish`) | Public, indexable and cached. `/menu` is ISR, one hour |
+| Order history (`/orders`) | Server (`getOrdersFor(session.phone)`) | Private, scoped to the session |
+| Order status (`/orders/[id]`) | Server first, then polled on the client | The server page seeds `fallbackData`, so there is no spinner. SWR polls every 5 s |
+| Menu search and page 2 onward | Client (SWR) | Triggered by typing or by a click, debounced 300 ms |
+| Cart | Client store (zustand) | It never leaves the browser until the order is placed |
+
 All queries use one fetcher: `src/lib/fetcher.js`.
 
 | Query | Key | Refresh rule | Why |
