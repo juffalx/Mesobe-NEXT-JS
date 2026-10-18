@@ -20,7 +20,7 @@ The repo has no dish photos (see README). For the numbers I copied `menu-1.jpg` 
 | `/menu`, 8 dish photos, phone with 2 columns (640 px wide file) | 6,391 kB | 316 kB as WebP, 324 kB as JPEG |
 | `/menu/doro-wat`, main photo on a 390 px phone (1200 px wide file) | 822 kB | 88 kB as WebP |
 | One dish photo, by width asked | 822 kB | 384 px: 18 kB, 640 px: 43 kB, 828 px: 64 kB, 1080 px: 98 kB |
-| First Load JS of `/menu`, gzip (`npm run measure`) | 183.0 kB | 188.5 kB |
+| First Load JS of `/menu`, gzip (`npm run measure`) | 183.0 kB | 188.5 kB on Day 43 (189.4 kB after Day 44) |
 
 The image weight is about 20 times smaller. First Load JS got 5.5 kB bigger, because search results are rendered on the client now (Day 41) and the dish card with `next/image` is part of that bundle. The fonts are the other new cost: Inter is 48 kB and Playfair Display is 38 kB as woff2 files, preloaded. Before, the site used system fonts (Georgia and Segoe UI) and there was no font request at all. So the fonts are a design choice that costs bytes. What `next/font` gives is no request to Google and a fallback font with matching metrics, so the swap should not move the page.
 
@@ -45,14 +45,34 @@ The "after" numbers depend on the `sizes` value. If `sizes` is missing the brows
 - **Third-party scripts**: none in the app, so there is nothing to move to `next/script`.
 - **Font link tag**: there was none. The site used system fonts.
 
-## Fill in from Lighthouse (Slow 4G, 4x CPU, production build)
+## Budget (Day 45)
 
-| | LCP | CLS | INP | Page weight |
+Measured on a production build. The "before" column is the state before Day 43 (plain `<img>`, first measure on the Day 42 build).
+
+| Measure | Target | Before | After | What moved it |
 | --- | --- | --- | --- | --- |
-| Before | | | | |
-| After | | | | |
+| LCP, throttled | under 2.5 s | fill in | fill in | The biggest image on `/menu` and the dish page went from about 800 kB to under 100 kB |
+| CLS | under 0.1 | fill in | fill in | `width`, `height` and `sizes` on every image, and `next/font` with a matching fallback |
+| First Load JS, `/menu` (gzip) | under 120 kB | 183.0 kB | 189.4 kB | **Target missed**, see below |
+| Largest image on a phone | under 150 kB | 822 kB (the original) | 98 kB (1080 px wide, JPEG). 88 kB as WebP at 1200 px | `next/image` resizes to the screen and serves WebP |
+| Lighthouse performance | 90 or better | fill in | fill in | |
 
-What I expect the biggest cause to be: the dish photos on `/menu` before, and nothing obvious after. Check the Lighthouse opportunities list to see if I am wrong.
+Run Lighthouse yourself (Chrome, production build, Slow 4G, 4x CPU) and write the numbers in the empty cells. I could not run a browser here, so I did not guess them.
+
+### Why First Load JS misses the target
+
+I measured other routes with `npm run measure -- <route>` (for example `index`, `menu`, `login`). The numbers are gzip:
+
+| Route | First Load JS |
+| --- | --- |
+| `/` (almost no code of mine) | 182.2 kB |
+| `/menu` | 189.4 kB |
+| `/cart` | 189.9 kB |
+| `/login` | 290.2 kB |
+
+The home page has almost no client code, and it is already 182 kB. The three biggest shared files are 70 kB, 43 kB and 39 kB gzip. Two of them contain the React DOM and the Next.js router code. I did not find out what the third one is. So about 150 kB is shared by every page, and the `/menu` code of mine adds only about 7 kB over the home page. A 120 kB target for `/menu` cannot be reached by changing `/menu`.
+
+`/login` is much bigger, 290 kB. One extra file of 100.7 kB gzip contains zod and React Hook Form, which the form brings into the page. That is the first place to look if you want to lower a number. I did not change it.
 
 ## Environment
 
