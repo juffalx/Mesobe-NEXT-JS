@@ -34,20 +34,33 @@ The proxy only proves that a cookie exists. It cannot tell if the session is rea
 
 The proxy sets `next` to the path the person wanted. After sign in, `nextPath()` accepts it only if it starts with `/` and does not start with `//` or `/\`. Anything else goes to `/`.
 
-## The three attacks (run against `next start`)
+## Who may see what
 
-| Attack | Result |
-| --- | --- |
-| Open `/checkout`, `/orders`, `/orders/MH-111111`, `/kitchen` with no cookie | 307 to `/login?next=...` |
-| Send a cookie that is not a session id (`session=abc`) | 307 to `/login` |
-| Call `placeOrder` and `cancelOrder` with a made-up but well-formed session id | `401` from the action itself. The proxy is not involved |
-| Cancel another user's order | `403 This order is not yours`. Order stays active |
-| Read another user's order at `/orders/MH-...` and `/api/orders/MH-...` | 404 both |
-| Open `/kitchen` as a customer | 307 to `/` |
-| Cancel the same order twice | second call is `409` |
-| `?next=` with `https://evil.com`, `//evil.com`, `/\evil.com`, `javascript:alert(1)` | all go to `/` |
-| Wrong password, unknown phone | same error message for both |
-| Sign up with a phone number that exists | refused |
+| Route | Who | Protected by | What that proves |
+| --- | --- | --- | --- |
+| `/menu`, `/menu/[id]` | Everyone | Nothing | It is public and should stay indexable |
+| `/checkout` | Any signed-in person | Proxy + page | Signed in. The write (`placeOrder`) checks the session again |
+| `/orders` | The owner | Proxy + page + scoped query | Signed in, and only their own records |
+| `/orders/[id]` | The owner | Proxy + page + `getOrder` | The order belongs to the session phone |
+| `cancelOrder` | The owner | Session, ownership and status inside the action | Signed in, the order is theirs, and it is not too late |
+| `/kitchen` | Staff only | Proxy + page + role check in `getKitchenOrders()` | Signed in, and `role` is `staff` |
+
+## The attacks (run with `npm run verify` against `npm run start`)
+
+| Attack | Result | Line that stopped it |
+| --- | --- | --- |
+| 1. Signed out: call `placeOrder` or `cancelOrder` with a made-up session id | 401 from the action. The proxy is not involved | `lib/orders.js:24` and `lib/orders.js:106` |
+| 2. Signed in as someone else: cancel another person's order | 403 `This order is not yours`, the order stays active | `lib/orders.js:110-111` |
+| 2b. Same person reads the order at `/orders/MH-...` or `/api/orders/MH-...` | 404 | `lib/orders.js:90` (the owner is part of the search) |
+| 2c. Open `/orders`: only own orders | Other people's orders are not in the list | `app/orders/page.js:17` passes `session.phone`, never an id from the request |
+| 2d. Customer opens `/kitchen` | Redirected to `/` | `lib/orders.js:125` |
+| 3. Crafted sign-in link `/login?next=https://example.com` | Lands on `/` after sign in (run in the browser) | `lib/nextPath.js:3` |
+| Guest opens a private route | 307 to `/login?next=...` | `proxy.js:8-11` |
+| Same order cancelled twice | 409 | `lib/orders.js:116` |
+| Wrong password, unknown phone | Same message for both | `lib/users.js` (`checkUser`) |
+| Sign up with a phone that exists | Refused | `lib/users.js` (`addUser`) |
+
+Attack 1 is a made-up session id, not "no cookie at all". Without any cookie, Next.js answers a hand-made action request with an empty `{}`, so the test would pass for the wrong reason. A made-up id reaches the action, and the action refuses it.
 
 ## Not covered yet
 
