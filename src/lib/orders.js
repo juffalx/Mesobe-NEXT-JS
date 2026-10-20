@@ -94,10 +94,16 @@ export async function getOrder(orderNo) {
   return { ...order, status: currentStatus(order) };
 }
 
-export async function getOrdersFor(phone) {
+export async function getOrdersForCurrentUser() {
+  const session = await getSession();
+  if (!session) return null;
+
   return orders
-    .filter((order) => order.owner === phone)
-    .map((order) => ({ ...order, status: currentStatus(order) }))
+    .filter((order) => order.owner === session.phone)
+    .map((order) => ({
+      ...order,
+      status: currentStatus(order),
+    }))
     .reverse();
 }
 
