@@ -1,9 +1,16 @@
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/session';
 import { getOrders } from '@/lib/db';
 import RevenueChart from './RevenueChart';
 import OrdersOverTimeChart from './OrdersOverTimeChart';
 import RevenueTable from './OrderTable';
 
 export default async function DashboardPage() {
+  const session = await getSession();
+
+  if (!session) {
+    redirect('/login?next=/dashboard');
+  }
   const orders = await getOrders();
 
   const areas = ['Bole', 'Kazanchis', 'Megenagna', 'CMC', 'Piassa', 'Sarbet'];
