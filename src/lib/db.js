@@ -102,7 +102,6 @@ const mockOrders = [
       { id: 'menu-19', name: 'Jebena Coffee', price: 80, qty: 1 },
     ],
   },
-
   {
     orderId: 'ORD-108',
     area: 'Kazanchis',
@@ -147,7 +146,6 @@ const mockOrders = [
       { id: 'menu-17', name: 'Fresh Timatim Fitfit', price: 280, qty: 1 },
     ],
   },
-
   {
     orderId: 'ORD-114',
     area: 'Kazanchis',
@@ -201,7 +199,6 @@ const mockOrders = [
       { id: 'menu-4', name: 'Clay-Pot Shiro Tegamino', price: 590, qty: 1 },
     ],
   },
-
   {
     orderId: 'ORD-121',
     area: 'Megenagna',
@@ -342,28 +339,59 @@ export const db = {
   dish: {
     findMany: async () => [...mockDishes],
     findUnique: async ({ where }) =>
-      mockDishes.find((d) => d.id === where.id) || null,
+      mockDishes.find((dish) => dish.id === where.id) || null,
   },
   order: {
-    findMany: async () => [...mockOrders],
+    findMany: async () => getOrders(),
   },
 };
+
+/**
+ * Fetch all dishes
+ */
+export async function getDishes() {
+  return [...mockDishes];
+}
 
 /**
  * Fetch a single dish by ID
  */
 export async function getDish(id) {
-  const dish = mockDishes.find((d) => d.id === id);
-  return dish || null;
+  return mockDishes.find((dish) => dish.id === id) || null;
 }
 
 /**
- * Create a new order in memory
+ * Retrieve orders with deterministic sample dates for older mock records.
+ * Existing createdAt values are preserved.
+ *
+ * Dates generated for records without dates are synthetic demo data,
+ * not real historical order timestamps.
+ */
+export async function getOrders() {
+  return mockOrders.map((order, index) => ({
+    ...order,
+    createdAt:
+      order.createdAt ??
+      new Date(Date.UTC(2026, 9, 1 + (index % 14), 9)).toISOString(),
+  }));
+}
+
+/**
+ * Retrieve a single order by orderId or legacy id.
+ */
+export async function getOrder(id) {
+  return (
+    mockOrders.find((order) => order.orderId === id || order.id === id) || null
+  );
+}
+
+/**
+ * Create a new order in memory.
  */
 export async function createOrder(data) {
   const newOrder = {
-    id: `ord_${Math.floor(100 + Math.random() * 900)}`,
     ...data,
+    orderId: `ORD-${Date.now()}`,
     status: 'PENDING',
     userId: mockSessionUser.id,
     createdAt: new Date().toISOString(),
@@ -373,34 +401,26 @@ export async function createOrder(data) {
   return newOrder;
 }
 
-export async function getOrders() {
-  return [...mockOrders];
-}
-
 /**
- * Retrieve a specific order by ID
- */
-export async function getOrder(id) {
-  const order = mockOrders.find((o) => o.id === id);
-  return order || null;
-}
-
-/**
- * Mark an order as cancelled
+ * Mark an order as cancelled.
  */
 export async function markCancelled(id) {
-  const order = mockOrders.find((o) => o.id === id);
+  const order = mockOrders.find(
+    (item) => item.orderId === id || item.id === id
+  );
+
   if (!order) {
     throw new Error('Order not found');
   }
 
   order.status = 'CANCELLED';
   order.updatedAt = new Date().toISOString();
+
   return order;
 }
 
 /**
- * Read current authenticated user session
+ * Read current authenticated user session.
  */
 export async function getSession() {
   return mockSessionUser;

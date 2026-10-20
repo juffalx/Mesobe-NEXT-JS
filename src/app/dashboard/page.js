@@ -1,24 +1,49 @@
 import { getOrders } from '@/lib/db';
 import RevenueChart from './RevenueChart';
-import RevenueTable from './OrderTable.jsx';
-export default async function DashboardPage() {
-  const order = await getOrders();
+import OrdersOverTimeChart from './OrdersOverTimeChart';
+import RevenueTable from './OrderTable';
 
-  //   console.log('order is ', order);
-  const Area = ['Bole', 'Kazanchis', 'Megenagna', 'CMC'];
-  const byArea = Area.map((area) => ({
+export default async function DashboardPage() {
+  const orders = await getOrders();
+
+  const areas = ['Bole', 'Kazanchis', 'Megenagna', 'CMC', 'Piassa', 'Sarbet'];
+
+  const byArea = areas.map((area) => ({
     area,
-    revenue: order
-      .filter((o) => o.area === area)
-      .reduce((sum, o) => sum + o.total, 0),
-    id: area,
+    revenue: orders
+      .filter((order) => order.area === area)
+      .reduce((sum, order) => sum + (Number(order.total) || 0), 0),
   }));
 
-  //   console.log('by area is ', byArea);
+  const dailyOrders = Object.values(
+    orders.reduce((groups, order) => {
+      if (!order.createdAt) return groups;
+
+      const date = new Date(order.createdAt);
+
+      if (Number.isNaN(date.getTime())) return groups;
+
+      const day = date.toISOString().slice(0, 10);
+
+      if (!groups[day]) {
+        groups[day] = { date: day, orders: 0 };
+      }
+
+      groups[day].orders += 1;
+
+      return groups;
+    }, {})
+  ).sort((a, b) => a.date.localeCompare(b.date));
+
   return (
-    <>
+    <main>
+      <h1>Revenue Dashboard</h1>
+
       <RevenueChart data={byArea} />
-      <RevenueTable data={byArea} />
-    </>
+
+      <OrdersOverTimeChart data={dailyOrders} />
+
+      <RevenueTable data={orders} />
+    </main>
   );
 }
