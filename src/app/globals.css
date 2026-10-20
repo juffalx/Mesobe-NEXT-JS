@@ -193,25 +193,23 @@ a {
   text-align: center;
   padding: 8px;
 }
-*,::before,::after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.main-layout{
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    background-color: #FFF8F6
-}
-
-.main-layout a{
-    text-decoration: none;
-}.main-layout {
-  display: flex;
-  flex-direction: column;
+.main-layout {
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: #fff8f6;
+}
+
+.main-layout a {
+  text-decoration: none;
 }
 
 ::selection {
