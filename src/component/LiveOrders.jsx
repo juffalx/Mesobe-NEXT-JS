@@ -9,54 +9,57 @@ export default function LiveOrders() {
   useEffect(() => {
     let active = true;
 
-    async function loadOrder() {
-      const response = await fetch('/api/orders', { cache: 'no-store' });
+    async function loadOrders() {
+      try {
+        const response = await fetch('/api/orders', {
+          cache: 'no-store',
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to load orders');
-      }
+        if (!response.ok) {
+          throw new Error('Failed to load orders');
+        }
 
-      const data = await response.json();
-      const latestOrders = Array.isArray(data) ? data : data.orders;
+        const data = await response.json();
+        const latestOrders = Array.isArray(data) ? data : data.orders;
 
-      if (!Array.isArray(latestOrders)) {
-        throw new Error('Unexpected API response');
-      }
+        if (!Array.isArray(latestOrders)) {
+          throw new Error('Unexpected API response');
+        }
 
-      if (active) {
-        setOrders(latestOrders);
-        setError('');
+        if (active) {
+          setOrders(latestOrders);
+          setError('');
+        }
       } catch {
         if (active) {
-          setError('could not load orders so . retring soon.');
+          setError('Could not load orders. Retrying soon.');
         }
       }
     }
 
-    loadOrder();
+    loadOrders();
 
     const intervalId = setInterval(loadOrders, 5000);
 
     return () => {
-        active = false;
-        clearImmediate(intervalId)
-    }
+      active = false;
+      clearInterval(intervalId);
+    };
+  }, []);
 
-  },[]);
-
-  return(
+  return (
     <section>
       <h2>Live Orders</h2>
 
       {error && <p>{error}</p>}
 
-      {!error && orders.length === 0 && <p>No Orders yet.</p>}
+      {!error && orders.length === 0 && <p>No orders yet.</p>}
 
-       {orders.map((order) => (
+      {orders.map((order) => (
         <p key={order.id ?? order.orderId}>
           Order: {order.id ?? order.orderId} — {order.status}
         </p>
       ))}
     </section>
-  )
+  );
 }
