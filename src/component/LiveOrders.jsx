@@ -56,8 +56,8 @@ export default function LiveOrders() {
       {!error && orders.length === 0 && <p>No orders yet.</p>}
 
       {orders.map((order) => (
-        <p key={order.id ?? order.orderId}>
-          Order: {order.id ?? order.orderId} — {order.status}
+        <p key={order.orderNo}>
+          Order: {order.orderNo} — {order.status}
         </p>
       ))}
     </section>
