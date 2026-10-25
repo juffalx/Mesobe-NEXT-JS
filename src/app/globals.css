@@ -221,3 +221,5 @@ img.img-box {
   height: auto;
   object-fit: cover;
 }
+
+@import 'leaflet/dist/leaflet.css';
