@@ -1,7 +1,7 @@
 .nf-page {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 48px 32px 80px;
+  padding: 48px var(--gutter) 80px;
 }
 .nf-hero {
   text-align: center;
@@ -14,7 +14,7 @@
   margin-bottom: 20px;
 }
 .nf-code {
-  font-size: 90px;
+  font-size: clamp(64px, 18vw, 90px);
   line-height: 1;
   color: #e8a33d;
   text-shadow: 2px 2px 0 var(--peach-2);
@@ -67,7 +67,7 @@
 }
 .nf-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 .nf-card {
@@ -92,6 +92,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 8px;
 }
 .nf-card-title h3 {
   font-size: 19px;
@@ -109,8 +110,10 @@
 }
 .nf-card-foot {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 .nf-card-foot small {
   color: var(--muted);
@@ -120,8 +123,28 @@
   padding: 8px 14px;
   font-size: 12.5px;
 }
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .nf-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .nf-page {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+  .nf-hero {
+    margin-bottom: 40px;
+  }
+  .nf-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nf-actions .btn-red,
+  .nf-actions .btn-ghost {
+    flex: 1 1 100%;
+  }
+  .nf-card-body > p {
+    min-height: 0;
   }
 }
