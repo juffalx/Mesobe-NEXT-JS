@@ -1,20 +1,20 @@
 .ts-container {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--gutter);
 }
 
 .buna-sec {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: 48px var(--gutter);
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: 40px;
   align-items: center;
 }
 .buna-sec h1 {
-  font-size: 30px;
+  font-size: clamp(24px, 6vw, 30px);
   margin-bottom: 14px;
 }
 .buna-sec .copy {
@@ -43,8 +43,10 @@
 }
 .injera-card .row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 .injera-card .row b {
   font-family: var(--serif);
@@ -58,10 +60,10 @@
 
 .communal-band {
   background: var(--cream-2);
-  padding: 36px 32px;
+  padding: 36px var(--gutter);
 }
 .communal-band .inner {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -78,17 +80,54 @@
   font-size: 13.5px;
 }
 
-/* ---------- Section 6 : closing CTA ---------- */
 .cta-close {
   text-align: center;
-  padding: 56px 32px;
+  padding: 56px var(--gutter);
 }
 .cta-close h2 {
-  font-size: 32px;
+  font-size: clamp(24px, 6vw, 32px);
   margin-bottom: 10px;
 }
 .cta-close p {
   color: var(--muted);
   margin-bottom: 22px;
   font-size: 14.5px;
+}
+
+@media (max-width: 900px) {
+  .buna-sec {
+    padding-top: 36px;
+    padding-bottom: 36px;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .buna-sec {
+    padding-top: 28px;
+    padding-bottom: 28px;
+    gap: 24px;
+  }
+  .injera-card {
+    padding: 18px;
+  }
+  .communal-band .inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .communal-band h2 {
+    font-size: 20px;
+  }
+  .communal-band .btn-red {
+    width: 100%;
+  }
+  .cta-close {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .cta-close .btn-red {
+    width: 100%;
+    max-width: 360px;
+  }
 }
