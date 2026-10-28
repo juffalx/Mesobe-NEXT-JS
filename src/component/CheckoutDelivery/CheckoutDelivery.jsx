@@ -150,7 +150,7 @@ function CheckoutDelivery() {
   return (
     <main className="checkout-page">
       <div className="checkout-steps">
-        <Link href="/orderCart" className="done">
+        <Link href="/cart" className="done">
           ✓ STEP 1 · Review Order
         </Link>
         <span className="current">2 · Delivery & Payment</span>
@@ -395,7 +395,7 @@ function CheckoutDelivery() {
           <p className="kicker">HABESHA FEAST</p>
           <div className="summary-head">
             <h2>Order Summary</h2>
-            <Link href="/orderCart" className="link-btn">
+            <Link href="/cart" className="link-btn">
               Edit Cart
             </Link>
           </div>

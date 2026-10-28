@@ -1,12 +1,13 @@
 .checkout-page {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 32px 32px 80px;
+  padding: 32px var(--gutter) 80px;
 }
 
 .checkout-steps {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 8px 20px;
   align-items: center;
   margin-bottom: 24px;
   font-size: 13px;
@@ -29,13 +30,14 @@
 
 .checkout-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   gap: 32px;
   align-items: start;
 }
 
 .mode-pills {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 20px;
 }
@@ -80,7 +82,7 @@
 }
 .two-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -102,11 +104,12 @@
 .phone-wrap input {
   border-radius: 0 10px 10px 0;
   flex: 1;
+  min-width: 0;
 }
 
 .timing-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
 }
 .timing-row .radio-card span b {
@@ -177,10 +180,12 @@
 }
 .tb-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .tb-row input {
-  flex: 1;
+  flex: 1 1 180px;
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--cream-2);
   border-radius: 10px;
@@ -325,6 +330,7 @@
 
 .support-card {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   background: var(--cream-2);
@@ -376,16 +382,77 @@
 }
 .confirm-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 14px;
   justify-content: center;
 }
 
 @media (max-width: 900px) {
   .checkout-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .summary {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .checkout-page {
+    padding-top: 20px;
   }
   .two-col,
   .timing-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
+  .form-card,
+  .summary {
+    padding: 18px;
+  }
+  .telebirr-box {
+    margin-left: 0;
+  }
+  .pill {
+    flex: 1 1 100%;
+  }
+  .confirm-box {
+    margin: 24px auto;
+    padding: 32px 18px;
+  }
+  .confirm-box h1 {
+    font-size: 24px;
+  }
+  .confirm-actions {
+    flex-direction: column;
+  }
+  .confirm-actions .btn-red,
+  .confirm-actions .btn-ghost {
+    width: 100%;
+  }
+  .support-card .btn-ghost {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.radio-card.selected {
+  background: var(--peach);
+  border-color: var(--red);
+}
+.radio-card input[type='radio'] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--red);
 }
