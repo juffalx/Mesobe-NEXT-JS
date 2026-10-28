@@ -23,19 +23,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable}`}>
-      <body className="heght-100%">
-        {/* 1. Put the layout container directly under body */}
-        <div className="min-h-dvh grid grid-rows-[auto_1fr_auto]">
-          {' '}
-          <header className="bg-blue-600 text-white">
-            <Providers>
-              <Header />
-            </Providers>
-          </header>
-          <main className="bg-gray-100 p-6">
+      <body>
+        <div className="app-shell">
+          <Providers>
+            <Header />
+          </Providers>
+          <div className="app-content">
             <Providers>{children}</Providers>
-          </main>
-          <footer className="bg-gray-800 text-white">
+          </div>
+          <footer>
             <Providers>
               <Footer />
             </Providers>
