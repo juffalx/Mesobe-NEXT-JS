@@ -95,11 +95,6 @@ function CurrentOrderCart() {
                   width={220}
                   height={123}
                   sizes="110px"
-                  style={{
-                    minHeight: 90,
-                    width: 110,
-                    borderRadius: 8,
-                  }}
                 />
                 <div className="item-info">
                   <h3>{i.name}</h3>
