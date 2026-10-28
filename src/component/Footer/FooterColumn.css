@@ -44,3 +44,11 @@
   margin-top: auto;
   color: var(--ink);
 }
+
+@media (max-width: 640px) {
+  .footer-column-list li a,
+  .footer-column-list li span {
+    display: inline-block;
+    padding: 4px 0;
+  }
+}

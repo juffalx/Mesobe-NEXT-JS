@@ -16,7 +16,8 @@
 .footer-lower-links {
   list-style: none;
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 8px 24px;
   margin: 0;
   padding: 0;
 }
@@ -29,4 +30,22 @@
 
 .footer-lower-links a:hover {
   color: var(--red);
+}
+
+.footer-lower-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+@media (max-width: 640px) {
+  .footer-lower {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 20px;
+  }
+  .footer-lower-links a {
+    min-height: 44px;
+  }
 }
