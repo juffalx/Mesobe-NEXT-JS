@@ -36,14 +36,14 @@ export default async function KitchenPage() {
             <tbody>
               {orders.map((order) => (
                 <tr key={order.orderNo}>
-                  <td>{order.orderNo}</td>
-                  <td>
+                  <td data-label="Order">{order.orderNo}</td>
+                  <td data-label="Dishes">
                     {order.lines.map((line) => `${line.qty} x ${line.name}`).join(', ')}
                   </td>
-                  <td>
+                  <td data-label="Deliver to">
                     {order.details.street}, {order.details.subcity}
                   </td>
-                  <td>{order.status.replace(/_/g, ' ').toLowerCase()}</td>
+                  <td data-label="Status">{order.status.replace(/_/g, ' ').toLowerCase()}</td>
                 </tr>
               ))}
             </tbody>
