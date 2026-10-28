@@ -1,10 +1,10 @@
 .menu-page {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 40px 32px 90px;
+  padding: 40px var(--gutter) 110px;
 }
 .menu-head h1 {
-  font-size: 38px;
+  font-size: clamp(28px, 7vw, 38px);
   margin: 6px 0 10px;
 }
 .menu-head .sub {
@@ -28,8 +28,8 @@
   flex-wrap: wrap;
 }
 .menu-search {
-  flex: 1;
-  min-width: 260px;
+  flex: 1 1 260px;
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--card);
   border-radius: 10px;
@@ -42,7 +42,8 @@
 }
 .menu-tags {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
 }
 .menu-tags span {
   background: var(--peach);
@@ -61,7 +62,7 @@
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
 }
 .menu-card {
@@ -134,7 +135,9 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 16px;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 50;
   background: var(--green);
   color: #fff;
@@ -158,17 +161,71 @@
 
 @media (max-width: 1100px) {
   .menu-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (max-width: 800px) {
   .menu-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+@media (max-width: 560px) {
+  .menu-page {
+    padding-top: 28px;
+  }
+  .menu-tools {
+    gap: 12px;
+  }
+  .menu-search {
+    flex-basis: 100%;
+    font-size: 16px;
+  }
+  .menu-tags span {
+    padding: 6px 12px;
+  }
+  .menu-cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0 var(--gutter) 6px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .menu-cats::-webkit-scrollbar {
+    display: none;
+  }
+  .menu-cats .chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+  .menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .menu-desc {
+    min-height: 0;
+  }
+  .menu-cart-bar {
+    left: 12px;
+    right: 12px;
+    transform: none;
+    width: auto;
+    max-width: none;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .bar-btn {
+    flex-shrink: 0;
+    padding: 9px 12px;
   }
 }
 
 .pager {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 16px;
