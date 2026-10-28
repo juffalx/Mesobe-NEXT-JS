@@ -1,5 +1,6 @@
 'use client';
 
+import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const restaurants = [
@@ -31,7 +32,7 @@ export default function Map() {
     <MapContainer
       center={[9.03, 38.74]}
       zoom={13}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: 'clamp(280px, 60vh, 480px)', width: '100%' }}
     >
       <TileLayer
         attribution="&copy; OpenStreetMap contributors"

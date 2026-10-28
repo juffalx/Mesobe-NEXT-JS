@@ -20,11 +20,15 @@ export default function RevenueChart({ data }) {
     }).format(v);
 
   return (
-    <div style={{ height: '300px', width: '100%' }}>
+    <div className="chart-box">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
-          <XAxis dataKey="area" />
-          <YAxis />
+          <XAxis
+            dataKey="area"
+            tick={{ fontSize: 12 }}
+            interval="preserveStartEnd"
+          />
+          <YAxis width={56} tick={{ fontSize: 12 }} />
           <Tooltip />
           <Bar dataKey="revenue" />
         </BarChart>

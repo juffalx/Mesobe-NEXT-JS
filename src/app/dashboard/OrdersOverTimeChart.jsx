@@ -28,34 +28,45 @@ export default function OrdersOverTimeChart({ data = [] }) {
         </p>
       ) : (
         <>
-          <div style={{ height: 300, width: '100%' }}>
+          <div className="chart-box">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <XAxis dataKey="date" tickFormatter={formatDate} />
-                <YAxis allowDecimals={false} />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={formatDate}
+                  tick={{ fontSize: 12 }}
+                  interval="preserveStartEnd"
+                />
+                <YAxis
+                  allowDecimals={false}
+                  width={40}
+                  tick={{ fontSize: 12 }}
+                />
                 <Tooltip labelFormatter={(label) => formatDate(label)} />
                 <Line type="monotone" dataKey="orders" name="Orders" />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          <table>
-            <caption>Daily order counts</caption>
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Orders</th>
-              </tr>
-            </thead>
-            <tbody>
-              {chartData.map((item) => (
-                <tr key={item.date}>
-                  <td>{formatDate(item.date)}</td>
-                  <td>{item.orders}</td>
+          <div className="table-scroll">
+            <table className="data-table">
+              <caption>Daily order counts</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Orders</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {chartData.map((item) => (
+                  <tr key={item.date}>
+                    <td>{formatDate(item.date)}</td>
+                    <td>{item.orders}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </section>

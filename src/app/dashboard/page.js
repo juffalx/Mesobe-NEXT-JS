@@ -4,6 +4,7 @@ import { getOrders } from '@/lib/db';
 import RevenueChart from './RevenueChart';
 import OrdersOverTimeChart from './OrdersOverTimeChart';
 import RevenueTable from './OrderTable';
+import './dashboard.css';
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
   ).sort((a, b) => a.date.localeCompare(b.date));
 
   return (
-    <main>
+    <main className="page-shell dash">
       <h1>Revenue Dashboard</h1>
 
       <RevenueChart data={byArea} />

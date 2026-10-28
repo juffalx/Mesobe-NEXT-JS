@@ -13,24 +13,26 @@ export default function RevenueTable({ data }) {
   }
 
   return (
-    <table>
-      <caption>Orders and their totals</caption>
-      <thead>
-        <tr>
-          <th scope="col">Order ID</th>
-          <th scope="col">Neighbourhood</th>
-          <th scope="col">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((order) => (
-          <tr key={order.orderId}>
-            <td>{order.orderId}</td>
-            <td>{order.area}</td>
-            <td>{etb(order.total)}</td>
+    <div className="table-scroll">
+      <table className="data-table">
+        <caption>Orders and their totals</caption>
+        <thead>
+          <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Neighbourhood</th>
+            <th scope="col">Total</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((order) => (
+            <tr key={order.orderId}>
+              <td>{order.orderId}</td>
+              <td>{order.area}</td>
+              <td>{etb(order.total)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
