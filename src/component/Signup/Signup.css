@@ -1,7 +1,7 @@
 .signup-page {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 32px 32px 80px;
+  padding: 32px var(--gutter) 80px;
 }
 .crumbs {
   font-size: 13px;
@@ -14,7 +14,7 @@
 
 .signup-grid {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 32px;
   align-items: start;
 }
@@ -28,7 +28,7 @@
   gap: 18px;
 }
 .signup-side h1 {
-  font-size: 34px;
+  font-size: clamp(26px, 6vw, 34px);
   line-height: 1.15;
 }
 .side-copy {
@@ -90,7 +90,7 @@
   box-shadow: var(--shadow);
 }
 .signup-card h2 {
-  font-size: 28px;
+  font-size: clamp(24px, 5vw, 28px);
 }
 .auth-sub {
   color: var(--muted);
@@ -140,6 +140,7 @@
 .phone-wrap input {
   border-radius: 0 10px 10px 0;
   flex: 1;
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--cream-2);
   padding: 12px 14px;
@@ -197,9 +198,32 @@
 
 @media (max-width: 900px) {
   .signup-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .signup-card {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .signup-page {
+    padding-top: 20px;
+  }
+  .signup-side {
+    padding: 24px 18px;
+  }
+  .signup-card {
+    padding: 22px 18px;
   }
   .two {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .social-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .divider {
+    font-size: 10px;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
