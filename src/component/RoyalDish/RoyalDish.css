@@ -1,7 +1,7 @@
 .doro-page {
-  max-width: 1248px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 32px 32px 80px;
+  padding: 32px var(--gutter) 80px;
 }
 .crumbs {
   font-size: 13px;
@@ -14,7 +14,7 @@
 
 .doro-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 40px;
   align-items: start;
 }
@@ -31,6 +31,12 @@
   position: absolute;
   top: 14px;
   right: 14px;
+}
+.gallery .img-box {
+  min-height: 360px;
+}
+.thumbs .img-box {
+  min-height: 80px;
 }
 .thumbs {
   display: grid;
@@ -82,10 +88,11 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
 }
 .doro-title-row h1 {
-  font-size: 34px;
+  font-size: clamp(26px, 6vw, 34px);
 }
 .doro-title-row small {
   font-size: 16px;
@@ -131,6 +138,7 @@
   grid-template-columns: repeat(2, 1fr);
 }
 .opt-card {
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--card);
   border-radius: 12px;
@@ -200,18 +208,20 @@
 
 .buy-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: center;
   margin: 8px 0 14px;
 }
 .buy-btn {
-  flex: 1;
+  flex: 1 1 200px;
   font-size: 15px;
   padding: 14px;
 }
 .doro-links {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 8px 24px;
 }
 .link-btn {
   background: none;
@@ -234,7 +244,7 @@
 }
 .pair-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 .pair-card {
@@ -280,9 +290,63 @@
 
 @media (max-width: 900px) {
   .doro-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
-  .opt-row {
-    grid-template-columns: 1fr;
+  .pair-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pairings {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .doro-page {
+    padding-top: 20px;
+    padding-bottom: 56px;
+  }
+  .gallery .img-box {
+    min-height: 220px;
+  }
+  .thumbs {
+    gap: 6px;
+  }
+  .thumbs .img-box {
+    min-height: 64px;
+  }
+  .gallery-tag,
+  .gallery-tag-2 {
+    top: 10px;
+    font-size: 9.5px;
+    padding: 3px 8px;
+  }
+  .gallery-tag {
+    left: 10px;
+  }
+  .gallery-tag-2 {
+    right: 10px;
+  }
+  .story-card {
+    padding: 18px;
+  }
+  .story-chips {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .opt-row,
+  .opt-row.two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .opt-line {
+    padding: 12px;
+  }
+  .pair-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pair-body p {
+    min-height: 0;
+  }
+  .buy-btn {
+    flex-basis: 100%;
   }
 }

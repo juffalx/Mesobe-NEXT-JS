@@ -20,7 +20,6 @@ export default function RoyalDish({ dish }) {
               height={768}
               sizes="(max-width: 900px) 100vw, 50vw"
               priority
-              style={{ minHeight: 360 }}
             />
             <span className="badge gallery-tag">HOUSE SIGNATURE</span>
             <span className="badge green gallery-tag-2">100% TEFF OPTION</span>
@@ -32,7 +31,6 @@ export default function RoyalDish({ dish }) {
                 width={1376}
                 height={768}
                 sizes="(max-width: 900px) 33vw, 17vw"
-                style={{ minHeight: 80 }}
               />
 
               <Image
@@ -42,7 +40,6 @@ export default function RoyalDish({ dish }) {
                 width={1376}
                 height={768}
                 sizes="(max-width: 900px) 33vw, 17vw"
-                style={{ minHeight: 80 }}
               />
 
               <Image
@@ -52,7 +49,6 @@ export default function RoyalDish({ dish }) {
                 width={1376}
                 height={768}
                 sizes="(max-width: 900px) 33vw, 17vw"
-                style={{ minHeight: 80 }}
               />
             </div>
           </div>
