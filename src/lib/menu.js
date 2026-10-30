@@ -1,6 +1,7 @@
-import 'server-only';
+import 'server-only'; //  not run in browser
 import { access, readFile } from 'node:fs/promises';
-import path from 'node:path';
+import path from 'node:path'; // safely to join folder name
+
 import { DISHES } from './fallbackDishes';
 
 const CAT_MAP = {
@@ -62,6 +63,7 @@ const normalize = (raw) => ({
 
 async function loadDishes() {
   try {
+    
     const file = path.join(process.cwd(), 'public', 'menu.json');
     const menu = JSON.parse(await readFile(file, 'utf8'));
     const list = menu.data || menu.menu || menu.dishes || [];
@@ -92,3 +94,6 @@ export async function getDish(id) {
   const dishes = await getDishes();
   return dishes.find((dish) => dish.id === id) || null;
 }
+
+
+// full dish or specific dish provide

@@ -1,14 +1,15 @@
 import 'server-only';
-import { z } from 'zod';
+import { z } from 'zod'; // validation
 import { orderSchema } from './schemas';
 import { COUPON_CODE, priceCart } from './pricing';
 import { getDishes } from './menu';
 import { getSession } from './session';
 
-const orders = (globalThis.mesobOrders ??= []);
+const orders = (globalThis.mesobOrders ??= []); //ጊዜያዊ ማስቀመጫ create array memory-based storeage 
 
 export async function processOrder(input) {
   const parsed = orderSchema.safeParse(input);
+
   if (!parsed.success) {
     return {
       status: 422,
@@ -26,7 +27,7 @@ export async function processOrder(input) {
 
   const { lines, coupon, ...details } = parsed.data;
 
-  if (coupon && coupon !== COUPON_CODE) {
+  if (coupon && coupon !==  COUPON_CODE) {
     return {
       status: 422,
       body: {
@@ -134,3 +135,12 @@ export async function getKitchenOrders() {
     .map((order) => ({ ...order, status: currentStatus(order) }))
     .reverse();
 }
+
+
+// id: number; bzatu 3 
+// name: string; bzatu 5
+
+// {name:"Doro wat", id: 123}
+
+// parsed.sucess = "true"
+// parsed.data = {name:"Doro wat", id: 123}

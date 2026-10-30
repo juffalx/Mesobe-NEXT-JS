@@ -11,9 +11,10 @@ export const metadata = {
 };
 
 export default async function OrdersPage() {
-  const session = await getSession();
+  const session = await getSession();// ሎንግ አድርጓል ወይስ አላደረገም
   if (!session) redirect('/login?next=/orders');
 
+  // 
   const orders = await getOrdersForCurrentUser();
   if (!orders) redirect('/login?next=/orders');
   return (
